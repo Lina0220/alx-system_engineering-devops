@@ -1,17 +1,17 @@
 #!/usr/bin/python3
-"""Module for task 0"""
+"""function to get the number of subscribers in a subreddit"""
+import requests
 
 
 def number_of_subscribers(subreddit):
-    """Queries the Reddit API and returns the number of subscribers
-    to the subreddit"""
-    import requests
-
-    sub_info = requests.get("https://www.reddit.com/r/{}/about.json"
-                            .format(subreddit),
-                            headers={"User-Agent": "My-User-Agent"},
-                            allow_redirects=False)
-    if sub_info.status_code >= 300:
+    """gets the number of subscribers"""
+    if subreddit is None:
         return 0
-
-    return sub_info.json().get("data").get("subscribers")
+    data = requests.get('http://www.reddit.com/r/{}/about.json'
+                        .format(subreddit),
+                        headers={"User-Agent": 'alx'}).json()
+    try:
+        nos = data.get('data').get('subscribers', 0)
+        return nos
+    except Exception:
+        return 0
